@@ -1,23 +1,66 @@
-### 20240130 MIMSpell - Precission Loss
+## Foundry
 
-### Lost: ~6,5M
+**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
 
+Foundry consists of:
+
+-   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
+-   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
+-   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
+-   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+
+## Documentation
+
+https://book.getfoundry.sh/
+
+## Usage
+
+### Build
+
+```shell
+$ forge build
 ```
-forge test --contracts ./src/test/MIMSpell2_exp.sol -vvv
+
+### Test
+
+```shell
+$ forge test
 ```
 
-#### Contract
+### Format
 
-[MIMSpell2_exp.sol](src/test/MIMSpell2_exp.sol)
+```shell
+$ forge fmt
+```
 
-#### Link reference
+### Gas Snapshots
 
-https://twitter.com/kankodu/status/1752581744803680680
+```shell
+$ forge snapshot
+```
 
-https://twitter.com/Phalcon_xyz/status/1752278614551216494
+### Anvil
 
-https://twitter.com/peckshield/status/1752279373779194011
+```shell
+$ anvil
+```
 
-https://phalcon.blocksec.com/explorer/security-incidents
+### Deploy
 
----
+```shell
+$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+```
+
+### Cast
+
+```shell
+$ cast <subcommand>
+```
+
+### Help
+
+```shell
+$ forge --help
+$ anvil --help
+$ cast --help
+```
