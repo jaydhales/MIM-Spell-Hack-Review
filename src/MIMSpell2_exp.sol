@@ -95,7 +95,7 @@ contract ContractTest is Test {
         Uni_Pair_V3(0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640);
 
     function setUp() public {
-        vm.createSelectFork("mainnet", 19118659);
+        vm.createSelectFork("https://eth-mainnet.g.alchemy.com/v2/xypdsCZYrlk6oNi93UmpUzKE9kmxHy2n", 19118659);
         vm.label(address(MIM), "MIM");
         vm.label(address(USDT), "USDT");
         vm.label(address(WETH), "WETH");
