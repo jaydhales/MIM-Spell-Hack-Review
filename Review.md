@@ -8,7 +8,7 @@ A 🧵 on how yesterday's @MIM_Spell attack worked. The protocol did everything 
 
 The protocol used shares mechanism to calculate the current debt of a user. Note: In the codebase, borrow shares are referred to as base/part and borrow assets amounts are referred to as elastic/amount.
 
-When a user borrows certain funds, they get minted borrow shares based on the current totalBorrowAssets and totalBorrowShares ratio. As interest is owed from the user, totalBorrowAssets increases without totalBorrowShares increasing and in turn it increases the proportional amount **that** the user has to repay as well. The culprit function was the repayForAll function. This allowed anyone to repay everyone's debt. To accomplish this, the protocol reduced totalBorrowAssets without totalBorrowShares in repayForAll function.
+When a user borrows certain funds, they get minted borrow shares based on the current totalBorrowAssets and totalBorrowShares ratio. As interest is owed from the user, totalBorrowAssets increases without totalBorrowShares increasing and in turn it increases the proportional amount that the user has to repay as well. The culprit function was the repayForAll function. This allowed anyone to repay everyone's debt. To accomplish this, the protocol reduced totalBorrowAssets without totalBorrowShares in repayForAll function.
 
 The attacker borrowed funds using a flashloan and use the repayForAll function first.
 
@@ -23,7 +23,7 @@ Now, the attacker repaid all the existing loans for all the borrowers.
 
 For the last remaining borrower, the user repaid all but 100 wei of shares.
 
-At that point, totalBorrowedAssets were 100, and totalBorrowShares were 3.
+At that point, totalBorrowedShares were 100, and totalBorrowAssets were 3.
 
 <!-- display image -->
 
