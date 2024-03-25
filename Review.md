@@ -1,6 +1,6 @@
 # MIM Spell Hack Review
 
-A 🧵 on how yesterday's @MIM_Spell attack worked. The protocol did everything right. They rounded in the protocol's favour whenever they should but one additional function, meant to only reduce the user's funds, ended up enabling the attack. How?
+The protocol did everything right. They rounded in the protocol's favour whenever they should but one additional function, meant to only reduce the user's funds, ended up enabling the attack. How?
 
 <!-- display image -->
 
