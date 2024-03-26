@@ -169,7 +169,7 @@ contract MIMSpellReplay is Test {
         // elastic:- Amount of MIM borrowed by users.
         // base:- Amount of borrowParts held by users.
 
-        console.log("Total MIM borrowed(elastic))", elastic, " :::: Total borrow Parts(base)", base);
+        console.log("Total MIM borrowed(elastic))", elastic, " :::: Total borrow Shares(base)", base);
         if (elastic > 0 && base > 0) {
             if (elastic > base) {
                 uint256 eToB = elastic * (10 ** 3) / base;
